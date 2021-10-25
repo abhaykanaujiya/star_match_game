@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import PlayNumber from './PlayNumber';
 import StarsDisplay from './StarsDisplay';
+import PlayAgain from './PlayAgain';
+import './star.css';
 
 export default function StarMatch() {
   const utils = {
@@ -35,9 +37,17 @@ export default function StarMatch() {
   };
 
   const [stars, setstars] = useState(utils.random(1, 9));
-  const [availableNums, setAvsilsbleNums] = useState(utils.range(1, 9));
+  const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
   const [candidateNum, setCandidateNum] = useState([]);
+
   const candidatesAreWrong = utils.sum(candidateNum) > stars;
+	 const gameIsDone = availableNums.length === 0;
+  
+  const resetGame = () => {
+  	setStars(utils.random(1, 9));
+    setAvailableNums(utils.range(1, 9));
+    setCandidateNums([]);
+  };
 
   const numberStatus = (number) => {
     if (!availableNums.includes(number)) {
@@ -50,45 +60,50 @@ export default function StarMatch() {
   };
 
   const onNumberClick = (number, currentStatus) => {
-    if (currentStatus == 'used') {
+    if (currentStatus === 'used') {
       return;
     }
-    const newCandidatNums = candidateNum.concat(number);
-    if (utils.Sum(newCandidatNums) !== stars) {
-      setCandidateNum(newCandidatNums);
+    const newCandidateNums =
+      currentStatus === 'available'
+        ? candidateNum.concat(number)
+        : candidateNum.filter((cn) => cn !== number);
+    if (utils.sum(newCandidateNums) !== stars) {
+      setCandidateNum(newCandidateNums);
     } else {
       const newAvailableNums = availableNums.filter(
-        (n) => !newCandidatNums.includes(n)
+        (n) => !newCandidateNums.includes(n)
       );
       setstars(utils.randomSumIn(newAvailableNums, 9));
-      setAvsilsbleNums(newAvailableNums);
+      setAvailableNums(newAvailableNums);
       setCandidateNum([]);
     }
   };
   return (
-    <div className='game'>
-      <div className='help'>
-        pick one number that sum to the number of stars
+       <div className="game">
+      <div className="help">
+        Pick 1 or more numbers that sum to the number of stars
       </div>
-      <div className='body'>
-        <div className='left'>
-          <StarsDisplay count={stars} utils={utils} />
-
-          {utils.range(1, stars).map((starId) => (
-            <div key={starId} className='star' />
-          ))}
+      <div className="body">
+        <div className="left">
+          {gameIsDone ? (
+          	<PlayAgain onClick={resetGame} />
+          ) : (
+          	<StarsDisplay count={stars} />
+          )}
         </div>
-        <div className='right'>
-          {utils.range(1, 9).map((number) => (
+        <div className="right">
+          {utils.range(1, 9).map(number => (
             <PlayNumber
               key={number}
               status={numberStatus(number)}
               number={number}
+              onClick={onNumberClick}
             />
           ))}
         </div>
       </div>
-      <div className='timer'>Time Remaining:10</div>
+      <div className="timer">Time Remaining: 10</div>
     </div>
+  
   );
 }
