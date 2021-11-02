@@ -8,7 +8,6 @@ export default function PlayNumber(props) {
   candidate: 'deepskyblue',
 };
   return (
-    <div>
       <button
     className="number"
     style={{backgroundColor: colors[props.status]}}
@@ -16,6 +15,6 @@ export default function PlayNumber(props) {
   >
     {props.number}
   </button>
-    </div>
-  );
+);
 }
+

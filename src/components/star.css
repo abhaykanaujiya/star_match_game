@@ -1,6 +1,7 @@
 .game {
   max-width: 500px;
   margin: 0 auto;
+  border-radius: 5px;
 }
 
 .body {
@@ -8,7 +9,7 @@
 }
 
 .help {
-  color: #666;
+  color: rgb(39, 22, 22);
   margin: 10px;
   text-align: center;
 }
@@ -16,14 +17,14 @@
 .left {
   text-align: center;
   width: 50%;
-  border: thin solid #ddd;
+  border:solid rgb(48, 47, 47)
 }
 
 .right {
   text-align: center;
   padding: 10px;
   width: 50%;
-  border: thin solid #ddd;
+  border:solid rgb(48, 47, 47);
 }
 
 .star {
@@ -51,7 +52,7 @@
 }
 
 .timer {
-	color: #666;
+	color: rgb(87, 24, 24);
   margin-top: 3px;
   margin-left: 3px;
 }
